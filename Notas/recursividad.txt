@@ -1,0 +1,82 @@
+=> ((fn [x y]
+      
+      (letfn [(g [a v]
+                (if (empty? v)
+                  a
+                  (g (+ a (first v)) (rest v))))]
+        (g x y))) 0 [10 20 30])
+60
+
+=> ((fn [x y]
+      
+      (letfn [(g [a v]
+                (if (empty? v)
+                  a
+                  (g (* a (first v)) (rest v))))]
+        (g x y))) 1 [10 10 10])
+1000
+
+18/07/2016
+
+=> (letfn [(g [zs ys]
+             (if (empty? zs)
+               ys
+               (g (rest zs) (if (>= (count (first zs)) (count ys)) (first zs) ys  ))))]
+     (g [[]] []))
+[]
+=> (letfn [ (f [x] (* 2 x))
+           (g [x] (* 3 x))])
+nil
+=> (letfn [ (f [x] (* 2 x))
+           (g [x] (+ (f x) (f x)))]
+     (g 5))
+20
+=> (letfn [(total-en [xs]
+             (letfn [(g [ys a]
+                       (if (empty? ys)
+                         a
+                         (g (rest ys) (+ a (first ys)))))]
+               (g xs 0)))]
+     (total-en [10 20]))
+30
+
+=> (letfn [(total-en [xs]
+             (letfn [(g [ys a]
+                       (if (empty? ys)
+                         a
+                         (g (rest ys) (+ a (first ys)))))]
+               (g xs 0)))
+    (f [xs]
+      (letfn [ (g [zs ys]
+                 (if (empty? zs)
+                   ys
+                   (g (rest zs) (if (> (total-en ys) (total-en (first zs)))ys (first zs)))))]
+        (g xs [])))]
+     (f [ [21 13] [20] [10]]))
+[21 13]
+
+=> (conj [10 20] 30)
+[10 20 30]
+=> (conj [10 20 30 40 50] 30 )
+[10 20 30 40 50 30]
+=> (conj [10 20 30 40 50] [30] )
+[10 20 30 40 50 [30]]
+
+
+=> (let [xs [10 20]
+         ys (conj xs 30)]
+     [xs ys])
+[[10 20] [10 20 30]]
+
+=> (letfn [(g [xs ys]
+             (if (empty? xs)
+               ys
+               (g (rest xs) (conj ys (* 2 (first xs))))))]
+     (g [2 3 4 ] []))
+[4 6 8]
+=> (letfn [(g [xs ys]
+             (if (empty? xs)
+               ys
+               (g (rest xs) (conj ys (count(first xs))))))]
+     (g  [[ 2 3 ] [ 4 5 6]] []))
+[2 3]

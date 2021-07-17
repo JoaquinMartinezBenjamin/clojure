@@ -1,0 +1,77 @@
+ (mmap (fn [x] (count x)) {:a [10 20] :b [30]})
+{:a 2, :b 1}
+
+
+=> (vmap (fn [x]
+           
+           (mmap (fn [x] (* 3 x))x)) [ {:a 10 } {:a 10 :b 20} {}])
+[{:a 30} {:a 30, :b 60} {}]
+
+
+(defn  cmap [f xs]
+(  letfn [ (recursividad [g g2 zs]
+                        (if (empty? g2)
+                          zs
+                          (recursividad g
+                                        (rest g2)
+                                        (conj zs ( g (first g2))))
+                          )
+                        )] (recursividad f xs #{} )))
+
+
+=> (cmap (fn [x] (* 2 x)) #{40 10 30})
+#{20 60 80}
+
+
+
+=> (vmap (fn [x]
+           
+           (filter (fn [x] (and (even? x ) (>= x 0)))x))
+         [[2 3 4] [-2 -4 6] [10 -3 -5 12 -9 6]])
+[[2 4] [6] [10 12 6]]
+
+
+=> (mmap (fn [x] (if (>= x 0) x (* -1 x))) {:a -3 :b 5 :c -9})
+{:a 3, :b 5, :c 9}
+
+(defn cfilter [f xs]
+  
+  (letfn [(recursividad [g ys zs]
+            (if (empty? ys)
+              zs
+              (recursividad g 
+                             (rest ys)
+                             (if (g (first ys))
+                               (conj zs (first ys)),zs))))]
+    (recursividad f xs #{}))) 
+
+
+=> (cfilter (fn [x] (pos? x))#{10 -20 30})
+#{30 10}
+
+(defn smap [f xs]
+  (letfn [(recursividad [g ys zs]
+            (if (empty? ys)
+              zs
+              (recursividad g
+                            (rest ys)
+                            (str zs (g (first ys)))
+                            )))]
+    
+    (recursividad f xs "")))
+
+
+(defn en-mayuscula [c] ({\a \A \e \E \i \I \o \O \u \U} c))
+
+(defn en-mayusculas [c]
+  (let [mayusculas {\a \A \e \E \i \I \o \O \u \U} ]
+    (if (nil? (mayusculas c))
+      c
+      (mayusculas c))))
+
+
+(smap en-mayuscula "aaaeee iiiooouuu")
+AAAEEEIIIOOOUUU
+=> (smap en-mayusculas "aa  ee")
+AA  EE
+

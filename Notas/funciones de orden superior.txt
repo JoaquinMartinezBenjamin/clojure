@@ -1,0 +1,134 @@
+(defn f [x]
+  (* 2 x))
+
+
+(defn  vmap [f xs]
+(  letfn [ (recursividad [g ys zs]
+                        (if (empty? ys)
+                          zs
+                          (recursividad g
+                                        (rest ys)
+                                        (conj zs ( g (first ys))))
+                          )
+                        )] (recursividad f xs [] )))
+
+
+
+
+
+
+(defn total-en [ xs]
+  (letfn [ (recursividad [ys ac]
+          (if (empty? ys )
+            ac
+            
+            (recursividad (rest ys) (+ ac (first ys )))))]
+    (recursividad xs 0)))
+
+(defn mmap [f xs]
+  (letfn [(recursividad [g g2 zs]
+            (if (empty? g2)
+              zs
+              (recursividad g 
+                            (rest g2)
+                            (conj zs
+                                  [((first g2)0)
+                                   
+                                   (g ( (first g2)1))]))))]
+    (recursividad f xs {}))) 
+            
+
+
+(defn filter [f xs]
+  
+  (letfn [(recursividad [g ys zs]
+            (if (empty? ys)
+              zs
+              (recursividad g 
+                             (rest ys)
+                             (if (g (first ys))
+                               (conj zs (first ys)),zs))))]
+    (recursividad f xs []))) 
+
+
+(defn tiene-dos-elementos? [xs]
+  (== (count xs)2)) 
+
+          (defn tiene-dos-elementosV? [xs]
+  (and (vector? xs) (== (count xs)2))) 
+
+          
+          (defn rango [xs]
+            (or (and(>= xs 20) (<= xs 30)) (and (>= xs 40) (<= xs 50)))
+            )
+          
+          
+ (defn mfilter [f xs]
+   (letfn [(recursividad [g ys zs]
+             (if (empty? ys)
+               zs
+               (recursividad g
+                             (rest ys)
+                             (if (g (first ys)1)  
+                               (conj zs (first ys))
+                             zs
+                             ))))]
+    (recursividad f xs {})))  
+          
+ 
+ (defn vreduce  [f vi xs]
+   (letfn [(recursividad [g vf ys]
+             
+             (if (empty? ys)
+               vf
+               (recursividad g
+                             (g vf (first ys))
+                             (rest ys))))]
+     (recursividad f vi xs)))
+        
+ 
+ 
+ 
+(defn  cmap [f xs]
+(  letfn [ (recursividad [g g2 zs]
+                        (if (empty? g2)
+                          zs
+                          (recursividad g
+                                        (rest g2)
+                                        (conj zs ( g (first g2))))
+                          )
+                        )] (recursividad f xs #{} )))
+
+
+
+(defn cfilter [f xs]
+  
+  (letfn [(recursividad [g ys zs]
+            (if (empty? ys)
+              zs
+              (recursividad g 
+                             (rest ys)
+                             (if (g (first ys))
+                               (conj zs (first ys)),zs))))]
+    (recursividad f xs #{}))) 
+
+(defn smap [f xs]
+  (letfn [(recursividad [g ys zs]
+            (if (empty? ys)
+              zs
+              (recursividad g
+                            (rest ys)
+                            (str zs (g (first ys)))
+                            )))]
+    
+    (recursividad f xs "")))
+
+
+(defn en-mayuscula [c] ({\a \A \e \E \i \I \o \O \u \U} c))
+
+(defn en-mayusculas [c]
+  (let [mayusculas {\a \A \e \E \i \I \o \O \u \U} ]
+    (if (nil? (mayusculas c))
+      c
+      (mayusculas c))))
+

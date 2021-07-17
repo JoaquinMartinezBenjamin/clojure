@@ -1,0 +1,21 @@
+(defn duplicados [xs]
+  (fos/vmap (fn [x] (* 2 x))xs))
+
+
+(ns proyecto03.core
+  (:require [proyecto03.fos :as fos] :reload) )
+ 
+
+(defn duplicados [xs]
+  (fos/vmap (fn [x] (* 2 x))xs))
+
+
+ (duplicados [2 3 4])
+[4 6 8]
+
+//
+(defn composicion-de [f g]
+  (fn [x]
+    (g (f x))))
+
+=> (fos/composicion-de (fn [x] (* 2 x)) (fn [x] (* 3 x)))

@@ -1,0 +1,8 @@
+(defn vreduce [f vi xs]
+  (letfn [(recursividad [g vf ys]
+   (if (empty? ys)
+       vf
+      (recursividad g
+              (g vf (first ys))
+               (rest ys))))]
+        (recursividad f vi xs)))

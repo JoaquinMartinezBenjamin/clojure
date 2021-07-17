@@ -1,0 +1,68 @@
+(defn en-Numero [c]
+  (let [mayusculas {\1 1 \2 2 \3 3 \4 4 \5 5} ]
+    (if (nil? (mayusculas c))
+      c
+      (mayusculas c))))
+
+
+=> (vmap (fn [x] (en-Numero x))(sreduce (fn [x y]
+                   (conj x y))
+                 []
+                 (str 1234)))
+[1 2 3 4]
+
+
+=> (sreduce (fn [x y]
+                   (conj x y))
+                 []
+                 (str 1234))
+[\1 \2 \3 \4]
+
+
+(defn en-Vector [n] (sreduce (fn [x y]
+                      (conj x y))
+                    []
+                    (str n)))
+
+
+(defn en-VectorNumero [i]
+     (vmap (fn [x] (en-Numero x)) (en-Vector i))
+     )
+
+(defn en-String [x] (str x))
+
+
+(defn vector12 [v] 
+      (letfn [(g [ys c v]
+               (if (>= c v)
+                 ys
+                 (g (if (even? c) (conj ys,1) (conj ys,2))
+                    (+ 1 c) v)
+                 )
+               
+               
+               )] (g [] 0 v)))
+
+
+(defn vector12 [v] 
+      (letfn [(g [ys c v z ]
+               (if (>= c z )
+                 ys
+                 (g (if (even? c) (conj ys, (* (first v) 1)) (conj ys, (* (first v) 2)))
+                    (+ 1 c) 
+                    (rest v)
+                    z)
+                 )
+
+
+(vmap ( fn[x] (if (> x 9)
+                (+ (first (en-VectorNumero x) )(last (en-VectorNumero x)))
+                x)
+               ) (vector12 (en-VectorNumero 3090682493))
+      )
+
+
+(defn sumaElementosVector [x] (vreduce (fn [x y] (+ x y))0 x))
+
+
+(sumaElementosVector  (aUnDigito (vector12(en-VectorNumero 1245))))

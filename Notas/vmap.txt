@@ -1,0 +1,10 @@
+
+(defn  vmap [f xs]
+(  letfn [ (recursividad [g ys zs]
+                        (if (empty? ys)
+                          zs
+                          (recursividad g
+                                        (rest ys)
+                                        (conj zs ( g (first ys))))
+                          )
+                        )] (recursividad f xs [] )))

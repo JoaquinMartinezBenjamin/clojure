@@ -1,0 +1,11 @@
+
+(defn vfilter [f xs]
+  
+  (letfn [(recursividad [g ys zs]
+            (if (empty? ys)
+              zs
+              (recursividad g 
+                             (rest ys)
+                             (if (g (first ys))
+                               (conj zs (first ys)),zs))))]
+    (recursividad f xs []))) 
